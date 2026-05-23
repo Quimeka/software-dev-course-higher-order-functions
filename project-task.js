@@ -44,6 +44,24 @@ Step-by-Step:
 3. Return the filtered result.
 */
 
+const readline = require('readline-sync');
+
+function filterProducts(products,callBackFunction){
+
+  return(products,callBackFunction);
+
+}
+
+//Available Products
+const availablity = filterProducts(products, products.filter(product => product.inStock != false));
+
+//Ask User for Budget to check Product Availability
+const acceptedPriceRange = Number(
+    readline.question("What's your max budget and we'll share what's within your price range?:  ")
+);
+//Product Availability based on Price Threshold
+const priceThreshold = filterProducts(products, products.filter(product => product.price <= acceptedPriceRange));
+
 
 /*
 🔹 Task 2: Transform Product Names
@@ -56,6 +74,7 @@ Step-by-Step:
 3. Store the result in a new variable.
 */
 
+const upperCaseArray = products.map(product => product.name.toUpperCase());
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -71,6 +90,27 @@ Step-by-Step:
 4. Print the array of products to verify the new property and value have been added to each product object.
 */
 
+//Define a function `applyDiscount` with a parameter `discountPercent`.
+function applyDiscount(discountPercent){
+
+  //Return a new function that takes a product object.
+  return function(product){
+
+    //Returns a function that takes in a product object and returns a discounted price
+    return product.price - (product.price * discountPercent/100);
+  
+  }
+ }
+//discount value
+const discountValue = 10;
+
+//establish function to pass discount value
+const discountApply = applyDiscount(discountValue);
+
+//`forEach()` call to add a new property, `salePrice`, to each product object.
+products.forEach(product => {
+  product.salePrice = discountApply(product);
+});
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -83,12 +123,21 @@ Step-by-Step:
 3. Store the total in a new variable.
 */
 
+let totalPrice = products.reduce((total,item) => {
+
+  if (item.inStock == true){
+    return total + item.price;
+  }
+  return total;
+},0);
+
 
 // ============================================
 // 🧪 Console Test Your Work
 // ============================================
 
-// console.log("Filtered products:", ...);
-// console.log("Uppercased names:", ...);
-// console.log("Discounted products:", ...);
-// console.log("Total value in stock:", ...);
+console.log("Filtered products[Availability]:", availablity);
+console.log("Filtered products[Price Range]:", priceThreshold);
+console.log("Uppercased names:", upperCaseArray);
+console.log("Discounted products:", products);
+console.log("Total value in stock:", totalPrice);
