@@ -123,12 +123,14 @@ Step-by-Step:
 3. Store the total in a new variable.
 */
 
+//reduce method
 let totalPrice = products.reduce((total,item) => {
-
+//checks to see if an item is in stock, if it is add it to the total
   if (item.inStock == true){
     return total + item.price;
   }
   return total;
+  //initial value is 0 to begin adding up total of prices for available items. 
 },0);
 
 
