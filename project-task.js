@@ -46,21 +46,21 @@ Step-by-Step:
 
 const readline = require('readline-sync');
 
-function filterProducts(products,callBackFunction){
+function filterProducts(array,cBfunction){
 
-  return(products,callBackFunction);
+  return(array,array.filter(cBfunction));
 
 }
 
 //Available Products
-const availablity = filterProducts(products, products.filter(product => product.inStock != false));
+const availablity = filterProducts(products, item => item.inStock);
 
 //Ask User for Budget to check Product Availability
 const acceptedPriceRange = Number(
     readline.question("What's your max budget and we'll share what's within your price range?:  ")
 );
 //Product Availability based on Price Threshold
-const priceThreshold = filterProducts(products, products.filter(product => product.price <= acceptedPriceRange));
+const priceThreshold = filterProducts(products, product => product.price <= acceptedPriceRange);
 
 
 /*
@@ -97,8 +97,7 @@ function applyDiscount(discountPercent){
   return function(product){
 
     //Returns a function that takes in a product object and returns a discounted price
-    return product.price - (product.price * discountPercent/100);
-  
+    return product.price - (product.price * discountPercent/100);  
   }
  }
 //discount value
@@ -126,7 +125,7 @@ Step-by-Step:
 //reduce method
 let totalPrice = products.reduce((total,item) => {
 //checks to see if an item is in stock, if it is add it to the total
-  if (item.inStock == true){
+  if (item.inStock){
     return total + item.price;
   }
   return total;
